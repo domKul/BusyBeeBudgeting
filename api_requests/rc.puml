@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Developer -> Mail: Check current package version
+Developer -> FTP: Download current package version
+FTP -> Developer
+Developer -> Local: Use VimDiff/Meld to compare current package and your's
+Developer -> Mail: Check if current package version is valid
+Developer -> local: Prepare Zip file with new package version
+Developer -> FTP: Send Zip file
+Developer -> Mail: Send mail about RC version
+Developer -> Developer: Wait for Review
+Developer -> FTP: Rename Zip file to current version
+Developer -> Mail: Send mail about new current version
+
+@enduml
