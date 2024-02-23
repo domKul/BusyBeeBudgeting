@@ -33,7 +33,7 @@ Students will progress through the modules at their own pace, completing exercis
 
 ## Newsletter Subscription
 
-To access exclusive course content and receive updates about new tutorials and resources, subscribe to our course [here](dicedev.pl/kursy).
+To access exclusive course content and receive updates about new tutorials and resources, subscribe to our course [here](http://www.dicedev.pl/kursy).
 
 ## Support
 
