@@ -1,42 +1,19 @@
-package pl.dicedev.services.integrations;
+package pl.dicedev.integrations;
 
-import pl.dicedev.builders.AssetEntityBuilder;
-import pl.dicedev.enums.AssetCategory;
+import org.junit.jupiter.api.Test;
 import pl.dicedev.enums.AuthenticationMessageEnum;
 import pl.dicedev.excetpions.BudgetUserAlreadyExistsInDatabaseException;
 import pl.dicedev.excetpions.BudgetUserNotFoundException;
-import pl.dicedev.repositories.AssetsRepository;
-import pl.dicedev.repositories.UserRepository;
-import pl.dicedev.repositories.entities.UserEntity;
-import pl.dicedev.services.UserDetailsServiceImpl;
 import pl.dicedev.services.dtos.UserDetailsDto;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@Transactional
-@WithMockUser(username = "userName", password = "userPassword")
-class UserDetailsServiceImplIntegrationTest {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AssetsRepository assetsRepository;
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-    private static final String USER_NAME = "userName";
-    private static final String USER_PASSWORD = "userPassword";
+class UserDetailsServiceImplIntegrationTest extends InitIntegrationTestData {
 
     @Test
     void shouldReturnUserWithUserNameAndPasswordFromDatabase() {
@@ -49,7 +26,6 @@ class UserDetailsServiceImplIntegrationTest {
         // then
         assertThat(result.getUsername()).isEqualTo(USER_NAME);
         assertThat(result.getPassword()).isEqualTo(USER_PASSWORD);
-
     }
 
     @Test
@@ -143,25 +119,6 @@ class UserDetailsServiceImplIntegrationTest {
         assertThat(userInDatabaseAfterDelete).hasSize(0);
         var assetsInDatabaseAfterDelete = assetsRepository.findAll();
         assertThat(assetsInDatabaseAfterDelete).hasSize(0);
-
     }
 
-    private void initDatabaseByAssetsForUser(UserEntity userEntity) {
-        var assetEntity = new AssetEntityBuilder()
-                .withIncomeDate(Instant.now())
-                .withUser(userEntity)
-                .withAmount(BigDecimal.ONE)
-                .withCategory(AssetCategory.BONUS)
-                .build();
-
-        assetsRepository.save(assetEntity);
-    }
-
-    private void initDatabaseByUser() {
-        UserEntity entity = new UserEntity();
-        entity.setPassword(USER_PASSWORD);
-        entity.setUsername(USER_NAME);
-
-        userRepository.save(entity);
-    }
 }

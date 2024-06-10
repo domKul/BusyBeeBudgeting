@@ -1,33 +1,40 @@
 package pl.dicedev.controllers;
 
+import org.springframework.http.MediaType;
+import pl.dicedev.services.ExpensesService;
 import pl.dicedev.services.dtos.ExpensesDto;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/expenses")
 public class ExpensesController {
+    private final ExpensesService expensesService;
+
+    public ExpensesController(ExpensesService expensesService) {
+        this.expensesService = expensesService;
+    }
 
     @GetMapping
     public List<ExpensesDto> getAllExpenses() {
-        throw new NotYetImplementedException();
+        return expensesService.getAllExpenses();
     }
 
-    @PostMapping
-    public void setExpenses(@RequestBody ExpensesDto expensesDto) {
-        throw new NotYetImplementedException();
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void saveExpenses(@RequestBody ExpensesDto expensesDto) {
+        expensesService.saveExpenses(expensesDto);
     }
 
-    @PutMapping
-    public void updateExpenses(@RequestBody ExpensesDto expensesDto) {
-        throw new NotYetImplementedException();
+    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ExpensesDto updateExpenses(@RequestBody ExpensesDto expensesDto,@PathVariable UUID id) {
+       return expensesService.updateExpenses(expensesDto,id);
     }
 
     @DeleteMapping
-    public void deleteExpenses(@RequestBody ExpensesDto expensesDto) {
-        throw new NotYetImplementedException();
+    public void deleteExpenses(@RequestBody UUID uuid) {
+        expensesService.deleteExpenses(uuid);
     }
     
 }

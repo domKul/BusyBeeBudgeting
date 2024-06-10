@@ -1,32 +1,17 @@
-package pl.dicedev.services.integrations;
+package pl.dicedev.integrations;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import pl.dicedev.enums.AuthenticationMessageEnum;
 import pl.dicedev.excetpions.BudgetInvalidUsernameOrPasswordException;
 import pl.dicedev.services.AuthenticationService;
-import pl.dicedev.services.JWTService;
-import pl.dicedev.services.UserDetailsServiceImpl;
 import pl.dicedev.services.dtos.UserDetailsDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.AuthenticationManager;
-
-import javax.transaction.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@Transactional
-public class AuthenticationServiceIntegrationTest {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private JWTService jwtService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+class AuthenticationServiceIntegrationTest extends InitIntegrationTestData{
 
     private AuthenticationService authenticationService;
 
@@ -42,7 +27,7 @@ public class AuthenticationServiceIntegrationTest {
     @Test
     void shouldThrowAnBudgetInvalidUsernameOrPasswordExceptionWhenUsernameIsIncorrect() {
         // given
-        initUserInDatabase();
+        initDatabaseByUser();
 
         UserDetailsDto dto = new UserDetailsDto();
         dto.setUsername("incorrectUserName");
@@ -55,14 +40,12 @@ public class AuthenticationServiceIntegrationTest {
         // then
         assertThat(result).isNotNull();
         assertThat(result.getMessage()).isEqualTo(AuthenticationMessageEnum.INVALID_USERNAME_OR_PASSWORD.getMessage());
-
-
     }
 
     @Test
     void shouldThrowAnBudgetInvalidUsernameOrPasswordExceptionWhenPasswordIsIncorrect() {
         // given
-        initUserInDatabase();
+        initDatabaseByUser();
 
         UserDetailsDto dto = new UserDetailsDto();
         dto.setUsername("user123");
@@ -75,15 +58,6 @@ public class AuthenticationServiceIntegrationTest {
         // then
         assertThat(result).isNotNull();
         assertThat(result.getMessage()).isEqualTo(AuthenticationMessageEnum.INVALID_USERNAME_OR_PASSWORD.getMessage());
-
-
     }
 
-    private void initUserInDatabase() {
-        UserDetailsDto dto = new UserDetailsDto();
-        dto.setUsername("user123");
-        dto.setPassword("user123");
-
-        userDetailsService.saveUser(dto);
-    }
 }

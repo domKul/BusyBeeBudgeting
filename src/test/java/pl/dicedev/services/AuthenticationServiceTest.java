@@ -1,9 +1,6 @@
 package pl.dicedev.services;
 
 
-import pl.dicedev.enums.AuthenticationMessageEnum;
-import pl.dicedev.excetpions.BudgetInvalidUsernameOrPasswordException;
-import pl.dicedev.services.dtos.UserDetailsDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.dicedev.enums.AuthenticationMessageEnum;
+import pl.dicedev.excetpions.BudgetInvalidUsernameOrPasswordException;
+import pl.dicedev.services.dtos.UserDetailsDto;
 
 import java.util.Collection;
 import java.util.Collections;

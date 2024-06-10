@@ -10,8 +10,8 @@ public class UserMapper {
     public UserEntity fromDtoToEntity(UserDetailsDto userDetailsDto) {
         var entity = new UserEntity();
 
-        entity.setPassword(encodePassword(userDetailsDto.getPassword()));
         entity.setUsername(userDetailsDto.getUsername());
+        entity.setPassword(encodePassword(userDetailsDto.getPassword()));
 
         return entity;
     }
