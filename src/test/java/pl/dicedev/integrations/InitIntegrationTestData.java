@@ -42,12 +42,6 @@ public abstract class InitIntegrationTestData {
     @Container
     public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:13.0");
 
-//    @DynamicPropertySource
-//    static void registerDynamicProperties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
-//        registry.add("spring.datasource.username", postgresContainer::getUsername);
-//        registry.add("spring.datasource.password", postgresContainer::getPassword);
-//    }
     @Autowired
     protected ExpensesService expensesService;
     @Autowired
