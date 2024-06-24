@@ -27,8 +27,6 @@ public class ExpensesService {
     private final UserLogInfoService userLogInfoService;
     private static final Logger logger = Logger.getLogger(ExpensesService.class.getName());
 
-
-
     public ExpensesService(ExpensesRepository expensesRepository, ExpensesMapper expensesMapper, UserLogInfoService userLogInfoService) {
         this.expensesRepository = expensesRepository;
         this.expensesMapper = expensesMapper;
@@ -111,26 +109,28 @@ public class ExpensesService {
     private void validateFilterKeys(Map<String, String> filters) {
         EnumSet<FilterExpensesParametersEnum> requiredKeys = EnumSet.noneOf(FilterExpensesParametersEnum.class);
 
-        if (filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey())) {
+        if (filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey())) {
             requiredKeys.add(FilterExpensesParametersEnum.YEAR);
-        } else if (filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey())) {
+        }
+        if (filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey())) {
             requiredKeys.add(FilterExpensesParametersEnum.MONTH);
-        } else if (filters.containsKey(FilterExpensesParametersEnum.FROM.getKey())) {
+        }
+        if (filters.containsKey(FilterExpensesParametersEnum.FROM.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.TO.getKey())) {
             requiredKeys.add(FilterExpensesParametersEnum.TO);
-        } else if (filters.containsKey(FilterExpensesParametersEnum.TO.getKey())) {
+        }
+        if (filters.containsKey(FilterExpensesParametersEnum.TO.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.FROM.getKey())) {
             requiredKeys.add(FilterExpensesParametersEnum.FROM);
         }
 
         for (FilterExpensesParametersEnum key : requiredKeys) {
             if (!filters.containsKey(key.getKey())) {
-                logAndThrowException(ExpensesExceptionErrorMessages.valueOf("MISSING_" + key.name() + "_KEY"));
+                ExpensesExceptionErrorMessages errorMessage = ExpensesExceptionErrorMessages.valueOf("MISSING_" + key.name() + "_KEY");
+                logAndThrowException(errorMessage);
             }
         }
     }
-
     private void logAndThrowException(ExpensesExceptionErrorMessages errorMessage) {
         logger.warning(errorMessage.getMessage());
         throw new MissingExpensesFilterException(errorMessage.getMessage());
     }
-
 }

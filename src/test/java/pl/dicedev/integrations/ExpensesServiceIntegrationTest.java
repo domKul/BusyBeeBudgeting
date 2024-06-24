@@ -3,6 +3,7 @@ package pl.dicedev.integrations;
 import org.junit.jupiter.api.Test;
 import pl.dicedev.builders.ExpensesDtoBuilder;
 import pl.dicedev.enums.ExpensesCategory;
+import pl.dicedev.enums.ExpensesExceptionErrorMessages;
 import pl.dicedev.excetpions.MissingExpensesFilterException;
 import pl.dicedev.repositories.entities.ExpensesEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ExpensesServiceIntegrationTest extends InitIntegrationTestData {
@@ -95,33 +95,6 @@ class ExpensesServiceIntegrationTest extends InitIntegrationTestData {
     void shouldReturnAllExpensesSavedInDatabase() {
     }
 
-//    @Test
-//    void shouldReturnAllExpensesBetweenDates(){
-//        //Given
-//        initDatabaseByUser();
-//        ExpensesDto expensesDto1 = new ExpensesDtoBuilder()
-//                .withCategory(ExpensesCategory.FUN)
-//                .withIncomeDate(Instant.now(Clock.fixed(Instant.parse("2024-06-20T00:00:00Z"), ZoneOffset.UTC)))
-//                .withAmount(new BigDecimal("1223.50"))
-//                .builder();
-//        ExpensesDto expensesDto2 = new ExpensesDtoBuilder()
-//                .withCategory(ExpensesCategory.FUN)
-//                .withIncomeDate(Instant.now(Clock.fixed(Instant.parse("2024-06-23T00:00:00Z"), ZoneOffset.UTC)))
-//                .withAmount(new BigDecimal("1223.50"))
-//                .builder();
-//
-//        expensesService.saveExpenses(expensesDto1);
-//        expensesService.saveExpenses(expensesDto2);
-//
-//        //Whne
-//        List<ExpensesDto> allExpensesBetweenDate = expensesService.getAllExpensesBetweenDate("2024-06-20", "2024-06-22");
-//
-//        //Then
-//        assertAll(
-//                ()->assertThat(allExpensesBetweenDate.size()).isEqualTo(1)
-//        );
-//    }
-
     @Test
     void shouldReturnAllExpensesBetweenDates() {
         // Given
@@ -151,4 +124,40 @@ class ExpensesServiceIntegrationTest extends InitIntegrationTestData {
                 () -> assertThat(allExpensesBetweenDate.size()).isEqualTo(1)
         );
     }
+
+    @Test
+    void shouldThrowExceptionWhenFilterKeyFromIsMissing() {
+        // Given
+        initDatabaseByUser();
+
+        // When
+        Map<String, String> filters = new HashMap<>();
+        filters.put("to", "2024-06-22");
+
+        MissingExpensesFilterException exception = assertThrows(MissingExpensesFilterException.class,
+                () -> expensesService.getFilteredExpenses(filters));
+
+        // Then
+        String expectedMessage = "Missing filter key: from";
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFilterKeyToIsMissing() {
+        // Given
+        initDatabaseByUser();
+
+        // When
+        Map<String, String> filters = new HashMap<>();
+        filters.put("from", "2024-06-22");
+
+        MissingExpensesFilterException exception = assertThrows(MissingExpensesFilterException.class,
+                () -> expensesService.getFilteredExpenses(filters));
+
+        // Then
+        String expectedMessage = "Missing filter key: to";
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+
 }
