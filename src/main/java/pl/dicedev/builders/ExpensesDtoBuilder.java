@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public class ExpensesDtoBuilder {
 
+    private UUID id;
     private BigDecimal amount;
     private Instant incomeDate;
     private ExpensesCategory category;
@@ -25,6 +26,10 @@ public class ExpensesDtoBuilder {
         this.incomeDate = incomeDate;
         return this;
     }
+    public ExpensesDtoBuilder withExpenseId( UUID id){
+        this.id = id;
+        return this;
+    }
     public ExpensesDtoBuilder withCategory( ExpensesCategory category){
         this.category = category;
         return this;
@@ -37,6 +42,7 @@ public class ExpensesDtoBuilder {
 
     public ExpensesDto builder(){
         var dto = new ExpensesDto();
+        dto.setId(this.id);
         dto.setAmount(this.amount);
         dto.setUserId(this.userId);
         dto.setPurchaseData(this.incomeDate);

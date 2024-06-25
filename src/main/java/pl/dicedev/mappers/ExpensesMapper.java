@@ -14,7 +14,7 @@ public class ExpensesMapper {
 
    public ExpensesDto fromEntityToDto(ExpensesEntity expensesEntity ){
         return new ExpensesDtoBuilder()
-                .withUserId(expensesEntity.getId())
+                .withExpenseId(expensesEntity.getId())
                 .withAmount(expensesEntity.getAmount())
                 .withCategory(expensesEntity.getCategory())
                 .withIncomeDate(expensesEntity.getPurchaseDate())

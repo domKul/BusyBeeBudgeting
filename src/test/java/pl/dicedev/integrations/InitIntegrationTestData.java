@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import pl.dicedev.builders.AssetEntityBuilder;
 import pl.dicedev.enums.AssetCategory;
 import pl.dicedev.repositories.AssetsRepository;
@@ -25,8 +28,11 @@ import static java.util.Arrays.asList;
 @SpringBootTest
 @Transactional
 @WithMockUser(username = "user123", password = "123user")
+@Testcontainers
 public abstract class InitIntegrationTestData {
 
+    @Container
+    public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:13.0");
 
     @Autowired
     protected ExpensesService expensesService;
