@@ -13,7 +13,6 @@ class IncomeDateValidator implements Validator {
             validatorMessage.setMessage(ValidatorsAssetEnum.NO_INCOME_DATE.getMessage());
             validatorMessage.setCode("C6589CAF5CB648BF9990E78800AA5E03");
         }
-
         return validatorMessage;
     }
 }

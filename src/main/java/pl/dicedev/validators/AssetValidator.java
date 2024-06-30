@@ -5,18 +5,20 @@ import pl.dicedev.services.dtos.AssetDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AssetValidator {
+public class AssetValidator extends FilterParametersValidator {
 
-    private Validator validator = new AmountValidator();
+    private final Validator validator = new AmountValidator();
 
     public void validate(AssetDto dto) {
         var validatorMessage = validator.valid(dto, new ValidatorMessage());
-
         if (validatorMessage.getMessage().isEmpty()) {
             return;
         }
-
         throw new AssetIncompleteException(validatorMessage.getMessage(), validatorMessage.getCode());
     }
 
+    @Override
+    protected void throwException(String missingKey) {
+
+    }
 }
