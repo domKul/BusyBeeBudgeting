@@ -128,9 +128,6 @@ class ExpensesServiceIntegrationTest extends InitIntegrationTestData {
     @Test
     void shouldThrowExceptionWhenFilterKeyFromIsMissing() {
         // Given
-        initDatabaseByUser();
-
-        // When
         Map<String, String> filters = new HashMap<>();
         filters.put("to", "2024-06-22");
 

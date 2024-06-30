@@ -1,6 +1,5 @@
 package pl.dicedev.services;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.dicedev.enums.ExpensesExceptionErrorMessages;
@@ -12,6 +11,9 @@ import pl.dicedev.repositories.ExpensesRepository;
 import pl.dicedev.repositories.entities.ExpensesEntity;
 import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
+import pl.dicedev.validators.ExpensesFilterParametersValidator;
+import pl.dicedev.validators.FilterParametersValidator;
+import pl.dicedev.validators.FilterValidatorFactory;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -25,12 +27,14 @@ public class ExpensesService {
     private final ExpensesRepository expensesRepository;
     private final ExpensesMapper expensesMapper;
     private final UserLogInfoService userLogInfoService;
+    private final ExpensesFilterParametersValidator expensesFilterParametersValidator;
     private static final Logger logger = Logger.getLogger(ExpensesService.class.getName());
 
-    public ExpensesService(ExpensesRepository expensesRepository, ExpensesMapper expensesMapper, UserLogInfoService userLogInfoService) {
+    public ExpensesService(ExpensesRepository expensesRepository, ExpensesMapper expensesMapper, UserLogInfoService userLogInfoService, ExpensesFilterParametersValidator expensesFilterParametersValidator) {
         this.expensesRepository = expensesRepository;
         this.expensesMapper = expensesMapper;
         this.userLogInfoService = userLogInfoService;
+        this.expensesFilterParametersValidator = expensesFilterParametersValidator;
     }
 
 
@@ -79,7 +83,8 @@ public class ExpensesService {
    }
 
     public List<ExpensesDto> getFilteredExpenses(Map<String, String> filters) {
-        validateFilterKeys(filters);
+        expensesFilterParametersValidator.assertFilter(filters);
+
         if (filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey()) && filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey())) {
             MonthsEnum month = MonthsEnum.valueOf(filters.get(FilterExpensesParametersEnum.MONTH.getKey()).toUpperCase());
             int year = Integer.parseInt(filters.get(FilterExpensesParametersEnum.YEAR.getKey()));
@@ -104,33 +109,5 @@ public class ExpensesService {
         Instant toDate = LocalDate.parse(to).atTime(23, 59, 59).toInstant(ZoneOffset.UTC);
         List<ExpensesEntity> allBetweenDate = expensesRepository.findAllBetweenDate(fromDate, toDate);
         return expensesMapper.fromEntitiesToDtos(allBetweenDate);
-    }
-
-    private void validateFilterKeys(Map<String, String> filters) {
-        EnumSet<FilterExpensesParametersEnum> requiredKeys = EnumSet.noneOf(FilterExpensesParametersEnum.class);
-
-        if (filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey())) {
-            requiredKeys.add(FilterExpensesParametersEnum.YEAR);
-        }
-        if (filters.containsKey(FilterExpensesParametersEnum.YEAR.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.MONTH.getKey())) {
-            requiredKeys.add(FilterExpensesParametersEnum.MONTH);
-        }
-        if (filters.containsKey(FilterExpensesParametersEnum.FROM.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.TO.getKey())) {
-            requiredKeys.add(FilterExpensesParametersEnum.TO);
-        }
-        if (filters.containsKey(FilterExpensesParametersEnum.TO.getKey()) && !filters.containsKey(FilterExpensesParametersEnum.FROM.getKey())) {
-            requiredKeys.add(FilterExpensesParametersEnum.FROM);
-        }
-
-        for (FilterExpensesParametersEnum key : requiredKeys) {
-            if (!filters.containsKey(key.getKey())) {
-                ExpensesExceptionErrorMessages errorMessage = ExpensesExceptionErrorMessages.valueOf("MISSING_" + key.name() + "_KEY");
-                logAndThrowException(errorMessage);
-            }
-        }
-    }
-    private void logAndThrowException(ExpensesExceptionErrorMessages errorMessage) {
-        logger.warning(errorMessage.getMessage());
-        throw new MissingExpensesFilterException(errorMessage.getMessage());
     }
 }
