@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import pl.dicedev.builders.ExpensesDtoBuilder;
 import pl.dicedev.builders.ExpensesEntityBuilder;
 import pl.dicedev.repositories.entities.ExpensesEntity;
-import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class ExpensesMapper {
 
-   public ExpensesDto fromEntityToDto(ExpensesEntity expensesEntity ){
+   public ExpensesDto fromEntityToDto(ExpensesEntity expensesEntity){
         return new ExpensesDtoBuilder()
                 .withExpenseId(expensesEntity.getId())
                 .withAmount(expensesEntity.getAmount())

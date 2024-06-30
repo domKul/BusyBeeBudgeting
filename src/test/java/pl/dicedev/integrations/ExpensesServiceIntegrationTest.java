@@ -1,6 +1,7 @@
 package pl.dicedev.integrations;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 import pl.dicedev.builders.ExpensesDtoBuilder;
 import pl.dicedev.enums.ExpensesCategory;
 import pl.dicedev.enums.ExpensesExceptionErrorMessages;
@@ -128,6 +129,7 @@ class ExpensesServiceIntegrationTest extends InitIntegrationTestData {
     @Test
     void shouldThrowExceptionWhenFilterKeyFromIsMissing() {
         // Given
+        initDatabaseByUser();
         Map<String, String> filters = new HashMap<>();
         filters.put("to", "2024-06-22");
 

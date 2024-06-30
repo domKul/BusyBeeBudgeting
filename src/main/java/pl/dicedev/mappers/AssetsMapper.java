@@ -7,7 +7,9 @@ import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.AssetDto;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class AssetsMapper {
@@ -68,7 +70,12 @@ public class AssetsMapper {
         }
 
         return dtoBuilder.build();
+    }
 
+    public List<AssetDto> fromEntityToListDto(List<AssetEntity> entities){
+        return entities.stream()
+                .map(this::fromEntityToDto)
+                .collect(Collectors.toList());
     }
 
 }
