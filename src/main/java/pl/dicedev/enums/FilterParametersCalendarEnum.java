@@ -1,6 +1,6 @@
 package pl.dicedev.enums;
 
-public enum FilterExpensesParametersEnum {
+public enum FilterParametersCalendarEnum {
     MONTH("month"),
     YEAR("year"),
     FROM("from"),
@@ -8,7 +8,7 @@ public enum FilterExpensesParametersEnum {
 
     private final String key;
 
-    FilterExpensesParametersEnum(String key) {
+    FilterParametersCalendarEnum(String key) {
         this.key = key;
     }
 

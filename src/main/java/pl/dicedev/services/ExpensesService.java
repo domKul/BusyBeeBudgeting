@@ -7,10 +7,11 @@ import pl.dicedev.repositories.ExpensesRepository;
 import pl.dicedev.repositories.entities.ExpensesEntity;
 import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
+import pl.dicedev.validators.FilterRangeFactory;
+import pl.dicedev.validators.FilteredRange;
 
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Service
 public class ExpensesService {
@@ -18,14 +19,17 @@ public class ExpensesService {
     private final ExpensesRepository expensesRepository;
     private final ExpensesMapper expensesMapper;
     private final UserLogInfoService userLogInfoService;
-    private final FilteredRange<ExpensesEntity, ExpensesDto> expensesFilteredRange;
+    private final FilteredRange expensesFilteredRange;
     private static final Logger logger = Logger.getLogger(ExpensesService.class.getName());
 
-    public ExpensesService(ExpensesRepository expensesRepository, ExpensesMapper expensesMapper, UserLogInfoService userLogInfoService, ExpensesFilteredRange expensesFilteredRange) {
+    public ExpensesService(ExpensesRepository expensesRepository,
+                           ExpensesMapper expensesMapper,
+                           UserLogInfoService userLogInfoService,
+                           FilterRangeFactory expensesFilteredRange) {
         this.expensesRepository = expensesRepository;
         this.expensesMapper = expensesMapper;
         this.userLogInfoService = userLogInfoService;
-        this.expensesFilteredRange = expensesFilteredRange;
+        this.expensesFilteredRange = expensesFilteredRange.getFilterRange("expenses");
     }
 
     public void saveExpenses(ExpensesDto expensesDto) {

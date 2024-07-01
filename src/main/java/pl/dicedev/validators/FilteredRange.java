@@ -1,8 +1,6 @@
-package pl.dicedev.services;
+package pl.dicedev.validators;
 
 import pl.dicedev.repositories.entities.UserEntity;
-import pl.dicedev.validators.FilterParametersValidator;
-import pl.dicedev.validators.FilterValidatorFactory;
 
 import java.util.List;
 import java.util.Map;

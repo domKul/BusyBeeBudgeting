@@ -1,9 +1,9 @@
 package pl.dicedev.mappers;
 
-import pl.dicedev.repositories.entities.UserEntity;
-import pl.dicedev.services.dtos.UserDetailsDto;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
+import pl.dicedev.repositories.entities.UserEntity;
+import pl.dicedev.services.dtos.UserDetailsDto;
 
 @Component
 public class UserMapper {

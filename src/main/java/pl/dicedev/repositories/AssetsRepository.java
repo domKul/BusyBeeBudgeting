@@ -1,11 +1,11 @@
 package pl.dicedev.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import pl.dicedev.enums.AssetCategory;
 import pl.dicedev.repositories.entities.AssetEntity;
 import pl.dicedev.repositories.entities.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
@@ -22,4 +22,6 @@ public interface AssetsRepository extends JpaRepository<AssetEntity, UUID> {
     List<AssetEntity> getAssetEntitiesByUser(UserEntity userEntity);
 
     void deleteAllByUser(UserEntity userEntity);
+
+    List<AssetEntity>findAll();
 }

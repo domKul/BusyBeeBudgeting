@@ -1,5 +1,7 @@
 package pl.dicedev.validators;
 
+
+
 public class FilterValidatorFactory {
 
     public static FilterParametersValidator getValidator(String filterType){

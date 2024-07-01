@@ -1,7 +1,6 @@
 package pl.dicedev.services.dtos;
 
 import pl.dicedev.enums.ExpensesCategory;
-import pl.dicedev.repositories.entities.UserEntity;
 
 import java.math.BigDecimal;
 import java.time.Instant;

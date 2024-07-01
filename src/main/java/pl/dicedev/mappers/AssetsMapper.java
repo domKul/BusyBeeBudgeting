@@ -1,11 +1,11 @@
 package pl.dicedev.mappers;
 
+import org.springframework.stereotype.Component;
 import pl.dicedev.builders.AssetDtoBuilder;
 import pl.dicedev.builders.AssetEntityBuilder;
 import pl.dicedev.repositories.entities.AssetEntity;
 import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.AssetDto;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;

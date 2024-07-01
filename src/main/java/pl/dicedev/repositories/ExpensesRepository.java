@@ -1,8 +1,8 @@
 package pl.dicedev.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pl.dicedev.repositories.entities.ExpensesEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
 import pl.dicedev.repositories.entities.UserEntity;
 
 import java.time.Instant;

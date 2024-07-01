@@ -54,6 +54,26 @@ public abstract class InitIntegrationTestData {
     protected static final String USER_NAME = "user123";
     protected static final String USER_PASSWORD = "123user";
 
+    private void initDatabaseByAssets(UserEntity user, Instant incomeDate) {
+        var assetEntity = new AssetEntityBuilder()
+                .withIncomeDate(incomeDate)
+                .withUser(user)
+                .withAmount(BigDecimal.ONE)
+                .withCategory(AssetCategory.BONUS)
+                .build();
+        assetsRepository.save(assetEntity);
+    }
+
+    public void initDatabaseByAssets(UserEntity user, String dateString) {
+        Instant instant = Instant.parse(dateString + "T00:00:00.001Z");
+        initDatabaseByAssets(user, instant);
+    }
+
+    public void initDatabaseByAssets(UserEntity user) {
+        Instant instant = Instant.now();
+        initDatabaseByAssets(user, instant);
+    }
+
      void initDatabaseByAssetsForUser(UserEntity userEntity) {
         var assetEntity = new AssetEntityBuilder()
                 .withIncomeDate(Instant.now())
@@ -75,7 +95,6 @@ public abstract class InitIntegrationTestData {
         var user = new UserEntity();
         user.setUsername("user123");
         user.setPassword("123user");
-
         return userRepository.save(user);
     }
 

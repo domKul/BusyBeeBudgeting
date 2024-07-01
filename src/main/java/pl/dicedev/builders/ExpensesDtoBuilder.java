@@ -1,8 +1,6 @@
 package pl.dicedev.builders;
 
-import pl.dicedev.enums.AssetCategory;
 import pl.dicedev.enums.ExpensesCategory;
-import pl.dicedev.repositories.entities.UserEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
 
 import java.math.BigDecimal;
