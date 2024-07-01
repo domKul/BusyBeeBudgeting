@@ -1,7 +1,7 @@
 package pl.dicedev.repositories.entities;
 
-import pl.dicedev.enums.AssetCategory;
 import org.hibernate.annotations.GenericGenerator;
+import pl.dicedev.enums.AssetCategory;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

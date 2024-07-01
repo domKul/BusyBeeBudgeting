@@ -1,10 +1,10 @@
 package pl.dicedev.controllers;
 
+import org.springframework.web.bind.annotation.*;
 import pl.dicedev.services.AuthenticationService;
 import pl.dicedev.services.UserDetailsServiceImpl;
 import pl.dicedev.services.dtos.AuthenticationJwtToken;
 import pl.dicedev.services.dtos.UserDetailsDto;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 

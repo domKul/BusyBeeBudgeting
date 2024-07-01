@@ -1,10 +1,8 @@
 package pl.dicedev.integrations;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.security.test.context.support.WithMockUser;
 import pl.dicedev.builders.ExpensesDtoBuilder;
 import pl.dicedev.enums.ExpensesCategory;
-import pl.dicedev.enums.ExpensesExceptionErrorMessages;
 import pl.dicedev.excetpions.MissingExpensesFilterException;
 import pl.dicedev.repositories.entities.ExpensesEntity;
 import pl.dicedev.services.dtos.ExpensesDto;
@@ -13,7 +11,6 @@ import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

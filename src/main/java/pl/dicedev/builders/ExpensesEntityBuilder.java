@@ -3,7 +3,6 @@ package pl.dicedev.builders;
 import pl.dicedev.enums.ExpensesCategory;
 import pl.dicedev.repositories.entities.ExpensesEntity;
 import pl.dicedev.repositories.entities.UserEntity;
-import pl.dicedev.services.dtos.ExpensesDto;
 
 import java.math.BigDecimal;
 import java.time.Instant;

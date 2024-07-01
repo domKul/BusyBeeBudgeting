@@ -1,11 +1,5 @@
 package pl.dicedev.services;
 
-import pl.dicedev.excetpions.BudgetUserAlreadyExistsInDatabaseException;
-import pl.dicedev.excetpions.BudgetUserNotFoundException;
-import pl.dicedev.mappers.UserMapper;
-import pl.dicedev.repositories.UserRepository;
-import pl.dicedev.repositories.entities.UserEntity;
-import pl.dicedev.services.dtos.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.dicedev.excetpions.BudgetUserAlreadyExistsInDatabaseException;
+import pl.dicedev.excetpions.BudgetUserNotFoundException;
+import pl.dicedev.mappers.UserMapper;
+import pl.dicedev.repositories.UserRepository;
+import pl.dicedev.repositories.entities.UserEntity;
+import pl.dicedev.services.dtos.UserDetailsDto;
 
 import javax.transaction.Transactional;
 import java.util.Collections;

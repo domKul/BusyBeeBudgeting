@@ -15,7 +15,10 @@ import pl.dicedev.mappers.AssetsMapper;
 import pl.dicedev.repositories.AssetsRepository;
 import pl.dicedev.repositories.entities.AssetEntity;
 import pl.dicedev.services.dtos.AssetDto;
-import pl.dicedev.validators.AssetValidator;
+import pl.dicedev.validators.AssetsFilterRange;
+import pl.dicedev.validators.ExpensesFilteredRange;
+import pl.dicedev.validators.FilterRangeFactory;
+import pl.dicedev.validators.FilterValidatorFactory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -36,17 +39,26 @@ class AssetsServiceTest {
     @Mock
     private UserLogInfoService userLogInfoService;
 
-    private final AssetValidator assetValidator = new AssetValidator();
+    private final FilterValidatorFactory assetValidator = new FilterValidatorFactory();
+
     private final AssetsMapper assetsMapper = new AssetsMapper();
+
+    ExpensesFilteredRange expensesFilteredRange;
+    AssetsFilterRange assetsFilterRangee;
+
+    private final FilterRangeFactory assetsFilterRange = new FilterRangeFactory(expensesFilteredRange, assetsFilterRangee);
 
     private AssetsService service;
 
     @BeforeEach
     public void init() {
-        service = new AssetsService(assetsRepository,
+        service = new AssetsService(
+                assetsRepository,
                 assetsMapper,
-                assetValidator,
-                userLogInfoService);
+                assetsFilterRange,
+                userLogInfoService
+                );
+
     }
 
     @Test
@@ -168,6 +180,7 @@ class AssetsServiceTest {
     void shouldThrowExceptionWhenIncomeDateAndAmountInAssetDtoIsNull() {
         // given
         AssetDto dto = new AssetDto();
+
         String messageSeparator = "; ";
         String expectedMessage = ValidatorsAssetEnum.NO_AMOUNT.getMessage()
                 + messageSeparator
@@ -179,6 +192,6 @@ class AssetsServiceTest {
 
         // then
         assertEquals(expectedMessage, result.getMessage());
-
     }
+
 }

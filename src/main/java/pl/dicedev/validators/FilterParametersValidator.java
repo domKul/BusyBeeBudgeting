@@ -2,7 +2,7 @@ package pl.dicedev.validators;
 
 import java.util.Map;
 
-public abstract class FilterParametersValidator {
+abstract class FilterParametersValidator {
 
     public void assertFilter(Map<String, String> filters) {
         checkIfMonthExistsAndYearIsMissing(filters);

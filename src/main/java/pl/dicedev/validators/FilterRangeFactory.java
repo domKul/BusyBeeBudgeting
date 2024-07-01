@@ -1,4 +1,4 @@
-package pl.dicedev.services;
+package pl.dicedev.validators;
 
 import org.springframework.stereotype.Component;
 

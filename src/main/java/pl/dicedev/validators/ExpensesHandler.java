@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.dicedev.excetpions.MissingExpensesFilterException;
 
 @ControllerAdvice
-public class ExpensesHndler {
+class ExpensesHandler {
 
     @ExceptionHandler(MissingExpensesFilterException.class)
     ResponseEntity<String> asd (MissingExpensesFilterException ex){
